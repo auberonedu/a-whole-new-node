@@ -1,4 +1,8 @@
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class Traversals {
   public static void main(String[] args) {
@@ -16,7 +20,7 @@ public class Traversals {
 
     Node<Integer> child1_1 = new Node<>(5);
     Node<Integer> child1_2 = new Node<>(99);
-    child1.children = new ArrayList<>();
+    child1.children = new LinkedList<>();
     child1.children.add(child1_1);
     child1.children.add(child1_2);
 
@@ -39,5 +43,58 @@ public class Traversals {
     child3_1.children = new ArrayList<>();
     child3_1.children.add(child3_1_1);
     child3_1.children.add(child3_1_2);
+
+    // preorder(root);
+
+    Map<Integer, List<Integer>> parentToChild = new HashMap<>();
+    parentToChild.put(88, List.of(17, 58, 33));
+    parentToChild.put(24, List.of(83, 6));
+    parentToChild.put(58, List.of(73));
+    parentToChild.put(33, List.of(24, 61, 12));
+    parentToChild.put(12, List.of());
+    parentToChild.put(5, List.of());
+    parentToChild.put(99, List.of());
+    parentToChild.put(61, List.of());
+    parentToChild.put(83, List.of());
+    parentToChild.put(73, List.of());
+    parentToChild.put(6, List.of());
+    parentToChild.put(17, List.of(5, 99));
+
+    preorderMap(parentToChild, 88);
+  }
+
+  public static void preorderMap(Map<Integer, List<Integer>> parentToChild, int current) {
+    // Base case:
+    // map is null or current not in map return
+    // print current
+    // children = parentToChild.get(current)
+    // for each child in children
+    //   recurse on child
+    if(parentToChild == null || !parentToChild.containsKey(current)) return;
+    System.out.println(current);
+    List<Integer> children = parentToChild.get(current);
+
+    for(int child : children) {
+      preorderMap(parentToChild, child);
+    }
+  }
+
+  public static <T> void preorder(Node<T> node) {
+    // Base case:
+    // if node is null return
+    // print node value
+    // if no children return
+    // for each child in node's children
+    //     recurse on the child
+
+    if(node == null) return;
+
+    System.out.println(node.value);
+
+    //if(node.children == null) return;
+
+    for(var child : node.children){
+      preorder(child);
+    }
   }
 }
